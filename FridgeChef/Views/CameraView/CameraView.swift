@@ -81,6 +81,8 @@ struct CameraView: View {
                 case .ingredients:
                     IngredientsView()
                         .environmentObject(viewModel)
+                case .recipeResult:
+                    YourReveneu()
                 }
             }
             .sheet(isPresented: $showCamera) {

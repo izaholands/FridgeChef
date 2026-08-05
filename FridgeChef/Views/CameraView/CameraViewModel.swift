@@ -36,4 +36,5 @@ enum CameraNavigationRoute: Hashable {
     case review
     case analyzing
     case ingredients
+    case recipeResult
 }

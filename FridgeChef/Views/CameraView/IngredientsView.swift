@@ -76,7 +76,7 @@ struct IngredientsView: View {
             Button(action: {
                 // Ação de Gerar Receita
                 print("Gerar receita com: \(viewModel.ingredients)")
-                // Poderia navegar para uma próxima tela, ou voltar à raiz dependendo do fluxo final
+                viewModel.navigationPath.append(CameraNavigationRoute.recipeResult)
             }) {
                 HStack {
                     Image(systemName: "wand.and.stars")
