@@ -14,6 +14,7 @@ struct ContentView: View {
                     Label("Receitas", systemImage: "fork.knife")
                 }
         }
+        .tint(Color("systemPrimaryColor"))
     }
 }
 
