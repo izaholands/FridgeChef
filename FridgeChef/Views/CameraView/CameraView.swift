@@ -18,7 +18,7 @@ struct CameraView: View {
                 VStack {
                     Image(systemName: "refrigerator")
                         .font(.system(size: 40))
-                        .foregroundColor(Color("primaryColor"))
+                        .foregroundColor(Color("systemPrimaryColor"))
                 }
                 .frame(width: 100, height: 100)
                 .background(Color("secondColor"))
@@ -43,7 +43,7 @@ struct CameraView: View {
                 ActionCardButton(
                     title: "Tirar foto",
                     iconName: "camera",
-                    backgroundColor: Color("primaryColor"),
+                    backgroundColor: Color("systemPrimaryColor"),
                     foregroundColor: .white
                 ) {
                     print("Ação: Abrir câmera")
