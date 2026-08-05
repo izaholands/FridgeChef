@@ -8,6 +8,7 @@ struct IngredientRow: View {
         VStack(alignment: .leading, spacing: 0) {
             Text(name)
                 .font(.body)
+                .frame(maxWidth: .infinity, alignment: .leading) 
                 .padding(.vertical, 16)
                 .padding(.horizontal, 20)
             
