@@ -1,16 +1,19 @@
-//
-//  ContentView.swift
-//  FridgeChef
-//
-//  Created by Carlos Alexandre Dias Messias de Lima on 03/08/26.
-//
-
 import SwiftUI
 import SwiftData
 
 struct ContentView: View {
     var body: some View {
-        Text("Hello, World!")
+        TabView {
+            CameraView()
+                .tabItem {
+                    Label("Câmera", systemImage: "camera.fill")
+                }
+            
+            RevenueView()
+                .tabItem {
+                    Label("Receitas", systemImage: "fork.knife")
+                }
+        }
     }
 }
 
