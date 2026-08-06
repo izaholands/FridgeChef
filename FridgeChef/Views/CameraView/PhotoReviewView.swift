@@ -18,8 +18,10 @@ struct PhotoReviewView: View {
     ]
     
     var body: some View {
+        let count = viewModel.selectedImages.count
+        
         VStack {
-            Text("\(viewModel.selectedImages.count) \(viewModel.selectedImages.count == 1 ? "foto selecionada" : "fotos selecionadas")")
+            Text(count == 1 ? "1 foto selecionada" : "\(count) fotos selecionadas")
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(.horizontal, 24)
                 .padding(.top, 20)
@@ -71,7 +73,10 @@ struct PhotoReviewView: View {
             Spacer()
             
             Button(action: {
-                viewModel.navigationPath.append(CameraNavigationRoute.analyzing)
+                Task {
+                    await viewModel.analyzeImages()
+                    viewModel.navigationPath.append(CameraNavigationRoute.ingredients)
+                }
             }) {
                 Text("Continuar")
                     .font(.headline)

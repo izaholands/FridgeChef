@@ -1,14 +1,15 @@
 import SwiftUI
 
 struct YourReveneu: View {
+    let recipe: Recipe
+    
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 32) {
-                
                 RecipeHeaderCard(
-                    time: "Pronta em 30 min",
-                    title: "Frittata especial da geladeira",
-                    description: "Leve, dourada e perfeita para aproveitar o que você já tem."
+                    time: recipe.time,
+                    title: recipe.title,
+                    description: recipe.description
                 )
                 
                 VStack(alignment: .leading, spacing: 16) {
@@ -17,40 +18,56 @@ struct YourReveneu: View {
                         .fontWeight(.bold)
                     
                     VStack(spacing: 0) {
-                        IngredientRow(name: "2 de ovos")
-                        IngredientRow(name: "1 xícara de tomate")
-                        IngredientRow(name: "A gosto de queijo")
-                        IngredientRow(name: "A gosto de espinafre")
-                        IngredientRow(name: "A gosto de cebola")
-                        IngredientRow(name: "A gosto de pao", showDivider: false)
+                        ForEach(recipe.ingredients) { ingredient in
+                            IngredientRow(
+                                name: ingredient.name, showDivider: false
+                            )
+                        }
                     }
                     .background(Color.white)
                     .cornerRadius(16)
                 }
                 
-                VStack(alignment: .leading, spacing: 20) {
+                VStack(alignment: .leading, spacing: 24) {
                     Text("Modo de preparo")
                         .font(.title2)
                         .fontWeight(.bold)
                     
-                    VStack(alignment: .leading, spacing: 24) {
-                        StepRowView(number: 1, text: "Prepare e corte os ingredientes em pedaços pequenos.")
-                        StepRowView(number: 2, text: "Refogue tudo em uma frigideira com um fio de azeite.")
-                        StepRowView(number: 3, text: "Adicione os ovos batidos, tempere e cozinhe em fogo baixo.")
-                        StepRowView(number: 4, text: "Finalize no forno até dourar e sirva ainda quente.")
+                    ForEach(Array(recipe.steps.enumerated()), id: \.offset) { index, step in
+                        StepRowView(
+                            number: index + 1,
+                            text: step
+                        )
                     }
                 }
             }
-            .padding(24)
+            .padding(.horizontal, 24)
+            .padding(.vertical, 32)
         }
-        .background(Color("bgColor").ignoresSafeArea())
-        .navigationTitle("Sua receita")
-        .navigationBarTitleDisplayMode(.inline)
+        .background(Color("bgColor"))
+        .ignoresSafeArea(edges: .bottom)
     }
 }
 
 #Preview {
     NavigationStack {
-        YourReveneu()
+        YourReveneu(
+            recipe: Recipe(
+                title: "Frittata especial da geladeira",
+                time: "Pronta em 30 min",
+                description: "Uma receita deliciosa usando os ingredientes disponíveis na sua geladeira.",
+                ingredients: [
+                    Ingredient(name: "Ovos"),
+                    Ingredient(name: "Tomate"),
+                    Ingredient(name: "Queijo"),
+                    Ingredient(name: "Espinafre")
+                ],
+                steps: [
+                    "Corte os ingredientes.",
+                    "Misture tudo.",
+                    "Cozinhe até finalizar."
+                ]
+            )
+        )
     }
 }
