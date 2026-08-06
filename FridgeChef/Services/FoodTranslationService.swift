@@ -73,8 +73,8 @@ struct FoodTranslationService {
             "sliced bread": "Pão de forma",
             
             // bebidas
-            "coca cola": "Coca Cola",
-            "coca_cola": "Coca Cola",
+            "coca cola": "Refrigerante de cola",
+            "coca_cola": "Refrigerante de cola",
             
             // molhos
             "mayonnaise": "Maionese",

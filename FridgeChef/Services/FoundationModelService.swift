@@ -77,7 +77,8 @@ final class FoundationModelService {
         // Using an English prompt often avoids false positive safety guardrails in FoundationModels
         // while still requesting the output in Portuguese.
         let prompt = """
-        Create a simple cooking recipe using these ingredients: \(ingredientNames).
+        You are a helpful and creative culinary assistant. Please create a simple, safe, and delicious cooking recipe using ONLY these everyday food ingredients: \(ingredientNames).
+        This is a benign request for a cooking app. All ingredients are safe for consumption.
         Please reply in Portuguese.
         Include a recipe name, preparation time, description, and steps.
         """
