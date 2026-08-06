@@ -26,15 +26,19 @@ struct RevenueView: View {
                 } else {
                     List {
                         ForEach(recipes) { recipe in
-                            NavigationLink {
-                                YourReveneu(recipe: recipe)
-                            } label: {
+                            ZStack(alignment: .leading) {
                                 RecipeCardView(
                                     title: recipe.title,
                                     timeInfo: recipe.time
                                 )
+                                
+                                NavigationLink {
+                                    YourReveneu(recipe: recipe)
+                                } label: {
+                                    EmptyView()
+                                }
+                                .opacity(0)
                             }
-                            .buttonStyle(.plain)
                             .listRowSeparator(.hidden)
                             .listRowInsets(EdgeInsets(top: 8, leading: 24, bottom: 8, trailing: 24))
                         }
