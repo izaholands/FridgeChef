@@ -23,9 +23,9 @@ struct IngredientsView: View {
                 VStack(alignment: .leading, spacing: 16) {
                     // Tag wrap view manual para os ingredientes
                     FlowLayout(spacing: 8) {
-                        ForEach(viewModel.ingredients, id: \.self) { ingredient in
+                        ForEach(viewModel.ingredients) { ingredient in
                             HStack(spacing: 4) {
-                                Text(ingredient)
+                                Text(ingredient.name)
                                     .font(.subheadline)
                                 
                                 Button(action: {
@@ -73,11 +73,12 @@ struct IngredientsView: View {
             
             Spacer()
             
-            Button(action: {
-                // Ação de Gerar Receita
-                print("Gerar receita com: \(viewModel.ingredients)")
-                viewModel.navigationPath.append(CameraNavigationRoute.recipeResult)
-            }) {
+            Button {
+                viewModel.navigationPath.append(CameraNavigationRoute.generatingRecipe)
+                Task {
+                    await viewModel.generateRecipe()
+                }
+            } label: {
                 HStack {
                     Image(systemName: "wand.and.stars")
                     Text("Gerar receita")

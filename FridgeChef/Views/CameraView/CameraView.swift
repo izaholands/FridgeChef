@@ -2,7 +2,7 @@ import SwiftUI
 import PhotosUI
 
 struct CameraView: View {
-    @StateObject private var viewModel = CameraViewModel()
+    @EnvironmentObject var viewModel: CameraViewModel
     @State private var showCamera = false
     @State private var showPhotosPicker = false
     @State private var selectedPhotosItems: [PhotosPickerItem] = []
@@ -81,8 +81,14 @@ struct CameraView: View {
                 case .ingredients:
                     IngredientsView()
                         .environmentObject(viewModel)
+                case .generatingRecipe:
+                    GeneratingRecipeView()
+                        .environmentObject(viewModel)
                 case .recipeResult:
-                    YourReveneu()
+                    if let recipe = viewModel.generatedRecipe{
+                        YourReveneu(recipe:recipe)
+                            .environmentObject(viewModel)
+                    }
                 }
             }
             .sheet(isPresented: $showCamera) {

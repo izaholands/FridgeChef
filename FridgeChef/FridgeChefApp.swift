@@ -10,9 +10,12 @@ import SwiftData
 
 @main
 struct FridgeChefApp: App {
+    @StateObject private var viewModel = CameraViewModel()
+    
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environmentObject(viewModel)
         }
     }
 }

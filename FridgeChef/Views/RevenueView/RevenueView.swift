@@ -1,33 +1,37 @@
 import SwiftUI
 
 struct RevenueView: View {
-    // Array fixo para simular o comportamento
-    let mockRecipes = [
-        ("Frittata especial da geladeira", "Pronta em 30 min"),
-        ("Frittata especial da geladeira", "Pronta em 30 min"),
-        ("Frittata especial da geladeira", "Pronta em 30 min")
-    ]
+    @EnvironmentObject var viewModel: CameraViewModel
     
     var body: some View {
         NavigationStack {
             ScrollView {
                 VStack(spacing: 16) {
-                    ForEach(0..<mockRecipes.count, id: \.self) { index in
-                        
-                        // 1. Envolvemos o card no NavigationLink
+                    if viewModel.recipes.isEmpty {
+                        VStack(spacing: 12) {
+                            Image(systemName: "fork.knife")
+                                .font(.system(size: 40))
+                                .foregroundColor(.secondary)
+                            
+                            Text("Nenhuma receita salva")
+                                .font(.headline)
+                            
+                            Text("Suas receitas criadas aparecerão aqui.")
+                                .foregroundColor(.secondary)
+                        }
+                        .padding(.top, 100)
+                    }
+                    
+                    ForEach(viewModel.recipes) { recipe in
                         NavigationLink {
-                            // 2. Destino: A tela de detalhes que acabamos de criar
-                            YourReveneu()
+                            YourReveneu(recipe: recipe)
                         } label: {
-                            // 3. Label: O visual do botão (o seu card)
                             RecipeCardView(
-                                title: mockRecipes[index].0,
-                                timeInfo: mockRecipes[index].1
+                                title: recipe.title,
+                                timeInfo: recipe.time
                             )
                         }
-                        // 4. Mantém as cores originais do seu card ao invés de aplicar um tint de botão
                         .buttonStyle(.plain)
-                        
                     }
                 }
                 .padding(.horizontal, 24)
@@ -39,5 +43,26 @@ struct RevenueView: View {
 }
 
 #Preview {
-    RevenueView()
+    let viewModel = CameraViewModel()
+    
+    viewModel.recipes = [
+        Recipe(
+            title: "Frittata especial da geladeira",
+            time: "Pronta em 30 min",
+            description: "Uma receita deliciosa usando os ingredientes disponíveis.",
+            ingredients: [
+                Ingredient(name: "Ovos"),
+                Ingredient(name: "Tomate"),
+                Ingredient(name: "Queijo")
+            ],
+            steps: [
+                "Corte os ingredientes.",
+                "Misture tudo.",
+                "Cozinhe até finalizar."
+            ]
+        )
+    ]
+    
+    return RevenueView()
+        .environmentObject(viewModel)
 }
