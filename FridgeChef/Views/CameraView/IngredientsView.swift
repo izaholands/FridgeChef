@@ -2,6 +2,7 @@ import SwiftUI
 
 struct IngredientsView: View {
     @EnvironmentObject var viewModel: CameraViewModel
+    @Environment(\.modelContext) private var modelContext
     @State private var newIngredient: String = ""
     
     var body: some View {
@@ -76,7 +77,7 @@ struct IngredientsView: View {
             Button {
                 viewModel.navigationPath.append(CameraNavigationRoute.generatingRecipe)
                 Task {
-                    await viewModel.generateRecipe()
+                    await viewModel.generateRecipe(context: modelContext)
                 }
             } label: {
                 HStack {
@@ -97,6 +98,18 @@ struct IngredientsView: View {
         .navigationTitle("Ingredientes")
         .navigationBarTitleDisplayMode(.inline)
         .navigationBarBackButtonHidden(true)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button(action: {
+                    viewModel.navigationPath.removeLast()
+                }) {
+                    HStack {
+                        Image(systemName: "chevron.left")
+                            .foregroundColor(Color("systemPrimaryColor"))
+                    }
+                }
+            }
+        }
     }
 }
 

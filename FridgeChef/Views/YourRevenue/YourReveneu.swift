@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct YourReveneu: View {
-    let recipe: Recipe
+    let recipe: Revenue
     
     var body: some View {
         ScrollView {
@@ -9,7 +9,7 @@ struct YourReveneu: View {
                 RecipeHeaderCard(
                     time: recipe.time,
                     title: recipe.title,
-                    description: recipe.description
+                    description: recipe.desc
                 )
                 
                 VStack(alignment: .leading, spacing: 16) {
@@ -18,9 +18,9 @@ struct YourReveneu: View {
                         .fontWeight(.bold)
                     
                     VStack(spacing: 0) {
-                        ForEach(recipe.ingredients) { ingredient in
+                        ForEach(recipe.ingredients, id: \.self) { ingredientName in
                             IngredientRow(
-                                name: ingredient.name, showDivider: false
+                                name: ingredientName, showDivider: false
                             )
                         }
                     }
@@ -52,15 +52,15 @@ struct YourReveneu: View {
 #Preview {
     NavigationStack {
         YourReveneu(
-            recipe: Recipe(
+            recipe: Revenue(
                 title: "Frittata especial da geladeira",
                 time: "Pronta em 30 min",
-                description: "Uma receita deliciosa usando os ingredientes disponíveis na sua geladeira.",
+                desc: "Uma receita deliciosa usando os ingredientes disponíveis na sua geladeira.",
                 ingredients: [
-                    Ingredient(name: "Ovos"),
-                    Ingredient(name: "Tomate"),
-                    Ingredient(name: "Queijo"),
-                    Ingredient(name: "Espinafre")
+                    "Ovos",
+                    "Tomate",
+                    "Queijo",
+                    "Espinafre"
                 ],
                 steps: [
                     "Corte os ingredientes.",
