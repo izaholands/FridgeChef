@@ -17,5 +17,6 @@ struct FridgeChefApp: App {
             ContentView()
                 .environmentObject(viewModel)
         }
+        .modelContainer(for: Revenue.self)
     }
 }

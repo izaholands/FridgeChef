@@ -1,13 +1,16 @@
 import SwiftUI
 
+import SwiftData
+
 struct RevenueView: View {
     @EnvironmentObject var viewModel: CameraViewModel
+    @Query private var recipes: [Revenue]
     
     var body: some View {
         NavigationStack {
             ScrollView {
                 VStack(spacing: 16) {
-                    if viewModel.recipes.isEmpty {
+                    if recipes.isEmpty {
                         VStack(spacing: 12) {
                             Image(systemName: "fork.knife")
                                 .font(.system(size: 40))
@@ -22,7 +25,7 @@ struct RevenueView: View {
                         .padding(.top, 100)
                     }
                     
-                    ForEach(viewModel.recipes) { recipe in
+                    ForEach(recipes) { recipe in
                         NavigationLink {
                             YourReveneu(recipe: recipe)
                         } label: {
@@ -45,24 +48,10 @@ struct RevenueView: View {
 #Preview {
     let viewModel = CameraViewModel()
     
-    viewModel.recipes = [
-        Recipe(
-            title: "Frittata especial da geladeira",
-            time: "Pronta em 30 min",
-            description: "Uma receita deliciosa usando os ingredientes disponíveis.",
-            ingredients: [
-                Ingredient(name: "Ovos"),
-                Ingredient(name: "Tomate"),
-                Ingredient(name: "Queijo")
-            ],
-            steps: [
-                "Corte os ingredientes.",
-                "Misture tudo.",
-                "Cozinhe até finalizar."
-            ]
-        )
-    ]
-    
+    // Preview with SwiftData requires ModelContainer, simplified for now
     return RevenueView()
         .environmentObject(viewModel)
+        .modelContainer(for: Revenue.self, inMemory: true)
+    
+
 }

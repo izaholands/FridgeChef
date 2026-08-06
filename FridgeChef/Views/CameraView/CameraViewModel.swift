@@ -1,6 +1,7 @@
 import SwiftUI
 import PhotosUI
 import Combine
+import SwiftData
 
 class CameraViewModel: ObservableObject {
     @Published var selectedImages: [UIImage] = []
@@ -8,8 +9,8 @@ class CameraViewModel: ObservableObject {
     @Published var ingredients: [Ingredient] = []
     @Published var feedbackMessages: [String] = []
     @Published var isLoading = false
-    @Published var generatedRecipe: Recipe?
-    @Published var recipes: [Recipe] = []
+    @Published var generatedRecipe: Revenue?
+    // recipes array removed as SwiftData handles this
     
     private let vision = VisionService()
     private let foundation = FoundationModelService()
@@ -51,7 +52,7 @@ class CameraViewModel: ObservableObject {
         }
     }
     
-    func generateRecipe() async {
+    func generateRecipe(context: ModelContext) async {
         let translatedIngredients = ingredients.map {
             Ingredient(
                 name: FoodTranslationService.translate($0.name)
@@ -70,8 +71,8 @@ class CameraViewModel: ObservableObject {
 
             generatedRecipe = recipe
             
-            // salva na lista de receitas
-            recipes.append(recipe)
+            // salva no SwiftData
+            context.insert(recipe)
             
             // Remove a tela de carregamento
             navigationPath.removeLast()
