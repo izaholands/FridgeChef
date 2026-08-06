@@ -42,10 +42,10 @@ struct YourReveneu: View {
                 }
             }
             .padding(.horizontal, 24)
-            .padding(.vertical, 32)
+            .padding(.top, 32)
+            .padding(.bottom, 40) // Ajustado para não ficar muito espaço
         }
         .background(Color("bgColor"))
-        .ignoresSafeArea(edges: .bottom)
     }
 }
 
