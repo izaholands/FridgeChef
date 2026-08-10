@@ -13,7 +13,7 @@ class CameraViewModel: ObservableObject {
     // recipes array removed as SwiftData handles this
     
     private let vision = VisionService()
-    private let foundation = FoundationModelService()
+    private let recipeService = MLXRecipeService()
     private let translator = FoodTranslationService()
     
     func addImage(_ image: UIImage) {
@@ -59,13 +59,13 @@ class CameraViewModel: ObservableObject {
             )
         }
         
-        print("Ingredientes enviados para o Foundation:")
+        print("Ingredientes enviados para a API MLX:")
         for ingredient in ingredients {
             print("Ingrediente:", ingredient.name)
         }
 
         do {
-            let recipe = try await foundation.generateRecipe(
+            let recipe = try await recipeService.generateRecipe(
                 ingredients: translatedIngredients
             )
 
@@ -81,7 +81,9 @@ class CameraViewModel: ObservableObject {
             navigationPath.append(CameraNavigationRoute.recipeResult)
 
         } catch {
-            print(error)
+            print("Erro na geração da receita:", error)
+            feedbackMessages.append("Não foi possível conectar ao servidor MLX. Verifique se a API está rodando e se o IP está correto.")
+            navigationPath.removeLast()
         }
     }
     
