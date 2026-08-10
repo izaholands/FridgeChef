@@ -10,9 +10,22 @@
 		3D911F4C302133C400427CEE /* FridgeChef.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FridgeChef.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		3D8D34BE3026629100C61CB8 /* Exceptions for "FridgeChef" folder in "FridgeChef" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 3D911F4B302133C400427CEE /* FridgeChef */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		3D911F4E302133C400427CEE /* FridgeChef */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				3D8D34BE3026629100C61CB8 /* Exceptions for "FridgeChef" folder in "FridgeChef" target */,
+			);
 			path = FridgeChef;
 			sourceTree = "<group>";
 		};
@@ -254,6 +267,7 @@
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = FridgeChef/Info.plist;
 				INFOPLIST_KEY_NSCameraUsageDescription = "Precisamos acessar a câmera para que você possa fotografar seus ingredientes.";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
@@ -299,6 +313,7 @@
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = FridgeChef/Info.plist;
 				INFOPLIST_KEY_NSCameraUsageDescription = "Precisamos acessar a câmera para que você possa fotografar seus ingredientes.";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
