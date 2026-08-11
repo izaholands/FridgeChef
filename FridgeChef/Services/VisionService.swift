@@ -1,88 +1,70 @@
-
 import UIKit
 import Vision
 import CoreML
 
 final class VisionService {
-
-    func classify(image: UIImage) async throws -> ClassificationResult {
-
+    
+    // Instancia o modelo uma única vez para reaproveitá-lo na memória
+    private let model: VNCoreMLModel = {
+        let configuration = MLModelConfiguration()
+        guard let mlModel = try? MyObjectDetector1(configuration: configuration).model,
+              let visionModel = try? VNCoreMLModel(for: mlModel) else {
+            fatalError("Falha ao carregar o modelo CoreML MyObjectDetector1")
+        }
+        return visionModel
+    }()
+    
+    func detectObjects(in image: UIImage) async throws -> [String] {
+        
         guard let cgImage = image.cgImage else {
-            return ClassificationResult(
-                name: nil,
-                confidence: 0,
-                message: "Imagem inválida"
-                
+            throw NSError(
+                domain: "VisionService",
+                code: 400,
+                userInfo: [NSLocalizedDescriptionKey: "Imagem inválida"]
             )
         }
-
-        let configuration = MLModelConfiguration()
-
-        let model = try VNCoreMLModel(
-            for: FoodClassifier2(configuration: configuration).model
-        )
-
+        
         return try await withCheckedThrowingContinuation { continuation in
-
             let request = VNCoreMLRequest(model: model) { request, error in
-
                 if let error {
                     continuation.resume(throwing: error)
                     return
                 }
-
-                guard let result = (request.results as? [VNClassificationObservation])?
-                    .first else {
-
-                    continuation.resume(returning: ClassificationResult(
-                        name: nil,
-                        confidence: 0,
-                        message: "Não foi possível analisar a imagem"
-                    ))
+                
+                guard let results = request.results as? [VNRecognizedObjectObservation] else {
+                    continuation.resume(returning: [])
                     return
                 }
-                let confidence = result.confidence
-
-                // confiança alta
-                if confidence >= 0.70 {
-                    continuation.resume(
-                        returning: ClassificationResult(
-                            name: result.identifier,
-                            confidence: confidence,
-                            message: nil
-                        )
-                    )
-
-                } else {
-                    continuation.resume(
-                        returning: ClassificationResult(
-                            name: nil,
-                            confidence: confidence,
-                            message:
-                            """
-                            Não conseguimos identificar esse alimento.
-
-                            Tente aproximar a câmera,
-                            melhorar a iluminação ou
-                            deixar o alimento mais visível.
-                            """
-                        )
-                    )
+                
+                var detectedLabels: [String] = []
+                
+                // Itera sobre cada alimento encontrado na foto
+                for observation in results {
+                    // Pega a classe com maior confiança do objeto
+                    if let topCandidate = observation.labels.first {
+                        // Filtra pelo limite de confiança (60%)
+                        if topCandidate.confidence >= 0.20 {
+                            detectedLabels.append(topCandidate.identifier)
+                        }
+                        for label in observation.labels {
+                            print("🔍 IA enxergou: '\(label.identifier)' | Confiança: \(label.confidence * 100)%")
+                        }
+                    }
                 }
-
-               // continuation.resume(returning: first.identifier)
+                
+                continuation.resume(returning: detectedLabels)
             }
-
+            
+            // Garante que o recorte mantenha a proporção ideal para detecção
+            request.imageCropAndScaleOption = .scaleFit
+            
             let handler = VNImageRequestHandler(cgImage: cgImage)
-
+            
             do {
                 try handler.perform([request])
             } catch {
                 continuation.resume(throwing: error)
             }
-
         }
-
     }
-
 }

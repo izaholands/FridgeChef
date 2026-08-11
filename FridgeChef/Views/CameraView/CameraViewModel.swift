@@ -4,7 +4,7 @@ import Combine
 import SwiftData
 
 class CameraViewModel: ObservableObject {
-    @Published var selectedImages: [UIImage] = []
+    @Published var selectedImage: UIImage?
     @Published var navigationPath = NavigationPath()
     @Published var ingredients: [Ingredient] = []
     @Published var feedbackMessages: [String] = []
@@ -17,7 +17,7 @@ class CameraViewModel: ObservableObject {
     private let translator = FoodTranslationService()
     
     func addImage(_ image: UIImage) {
-        selectedImages.append(image)
+        selectedImage = image
     }
     
     func analyzeImages() async {
@@ -27,28 +27,32 @@ class CameraViewModel: ObservableObject {
         ingredients.removeAll()
         feedbackMessages.removeAll()
         
-        for image in selectedImages {
-            do {
-                let result = try await vision.classify(image: image)
-                
-                if let name = result.name {
-                    
-                    print("Detectado:", name)
-                    let translatedName = FoodTranslationService.translate(name)
-                    
-                    print("Traduzido:", translatedName)
-
-                    if !ingredients.contains(where: {
-                        $0.name.lowercased() == translatedName.lowercased()
-                    }) {
-                        ingredients.append(Ingredient(name: translatedName))
-                    }
-                } else if let message = result.message {
-                    feedbackMessages.append(message)
-                }
-            } catch {
-                feedbackMessages.append("Erro ao analisar a imagem.")
+        guard let image = selectedImage else {
+            feedbackMessages.append("Nenhuma imagem selecionada.")
+            return
+        }
+        
+        do {
+            let detectedNames = try await vision.detectObjects(in: image)
+            
+            if detectedNames.isEmpty {
+                feedbackMessages.append("Nenhum alimento foi identificado na imagem.")
+                return
             }
+            
+            for name in detectedNames {
+                print("Detectado:", name)
+                let translatedName = FoodTranslationService.translate(name)
+                print("Traduzido:", translatedName)
+
+                if !ingredients.contains(where: {
+                    $0.name.lowercased() == translatedName.lowercased()
+                }) {
+                    ingredients.append(Ingredient(name: translatedName))
+                }
+            }
+        } catch {
+            feedbackMessages.append("Erro ao analisar a imagem.")
         }
     }
     
@@ -87,9 +91,8 @@ class CameraViewModel: ObservableObject {
         }
     }
     
-    func removeImage(at index: Int) {
-        guard index >= 0 && index < selectedImages.count else { return }
-        selectedImages.remove(at: index)
+    func removeImage() {
+        selectedImage = nil
     }
     
     func removeIngredient(_ ingredient: Ingredient) {

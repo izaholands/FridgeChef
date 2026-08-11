@@ -37,7 +37,7 @@ struct CameraView: View {
                             .font(.title2)
                             .fontWeight(.bold)
                         
-                        Text("Fotografe sua geladeira ou despensa\n(pode tirar mais de uma foto) e descubra\nreceitas feitas para você.")
+                        Text("Fotografe sua geladeira ou despensa\n(tire uma foto com os ingredientes visíveis)\ne descubra receitas feitas para você.")
                             .font(.body)
                             .foregroundColor(.secondary)
                             .multilineTextAlignment(.center)
@@ -101,26 +101,18 @@ struct CameraView: View {
                     cameraImage = nil
                 }
             }
-            .photosPicker(isPresented: $showPhotosPicker, selection: $selectedPhotosItems, maxSelectionCount: 0, matching: .images)
+            .photosPicker(isPresented: $showPhotosPicker, selection: $selectedPhotosItems, maxSelectionCount: 1, matching: .images)
             .onChange(of: selectedPhotosItems) { _, newItems in
-                guard !newItems.isEmpty else { return }
+                guard let item = newItems.first else { return }
                 Task {
-                    var added = false
-                    for item in newItems {
-                        if let data = try? await item.loadTransferable(type: Data.self),
-                           let image = UIImage(data: data) {
-                            DispatchQueue.main.async {
-                                viewModel.addImage(image)
-                            }
-                            added = true
-                        }
-                    }
-                    selectedPhotosItems.removeAll()
-                    if added {
+                    if let data = try? await item.loadTransferable(type: Data.self),
+                       let image = UIImage(data: data) {
                         DispatchQueue.main.async {
+                            viewModel.addImage(image)
                             viewModel.navigationPath.append(CameraNavigationRoute.review)
                         }
                     }
+                    selectedPhotosItems.removeAll()
                 }
             }
         }

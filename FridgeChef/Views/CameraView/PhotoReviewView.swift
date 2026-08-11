@@ -18,57 +18,31 @@ struct PhotoReviewView: View {
     ]
     
     var body: some View {
-        let count = viewModel.selectedImages.count
-        
         VStack {
-            Text(count == 1 ? "1 foto selecionada" : "\(count) fotos selecionadas")
+            Text("Foto selecionada")
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(.horizontal, 24)
                 .padding(.top, 20)
                 .foregroundColor(.secondary)
             
-            ScrollView {
-                LazyVGrid(columns: columns, spacing: 16) {
-                    ForEach(viewModel.selectedImages.indices, id: \.self) { index in
-                        ZStack(alignment: .topTrailing) {
-                            Image(uiImage: viewModel.selectedImages[index])
-                                .resizable()
-                                .scaledToFill()
-                                .frame(width: 100, height: 100)
-                                .clipShape(RoundedRectangle(cornerRadius: 12))
-                            
-                            Button(action: {
-                                viewModel.removeImage(at: index)
-                                if viewModel.selectedImages.isEmpty {
-                                    viewModel.navigationPath.removeLast()
-                                }
-                            }) {
-                                Image(systemName: "xmark.circle.fill")
-                                    .foregroundColor(.white)
-                                    .background(Circle().fill(Color.black.opacity(0.5)))
-                            }
-                            .padding(4)
-                        }
-                    }
-                    
-                    // Botão de adicionar mais fotos
-                    Button(action: {
-                        showActionSheet = true
-                    }) {
-                        ZStack {
-                            RoundedRectangle(cornerRadius: 12)
-                                .strokeBorder(Color("systemPrimaryColor"), style: StrokeStyle(lineWidth: 2, dash: [5]))
-                                .background(Color("secondColor").cornerRadius(12))
-                                .frame(width: 100, height: 100)
-                            
-                            Image(systemName: "plus")
-                                .font(.title)
-                                .foregroundColor(Color("systemPrimaryColor"))
-                        }
-                    }
-                }
-                .padding(.horizontal, 24)
+            if let image = viewModel.selectedImage {
+                Image(uiImage: image)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(maxHeight: 400)
+                    .clipShape(RoundedRectangle(cornerRadius: 12))
+                    .padding(.horizontal, 24)
             }
+            
+            Button(action: {
+                showActionSheet = true
+            }) {
+                Text("Trocar foto")
+                    .font(.subheadline)
+                    .foregroundColor(Color("systemPrimaryColor"))
+                    .padding(.vertical, 8)
+            }
+            .padding(.top, 8)
             
             Spacer()
             
@@ -83,12 +57,12 @@ struct PhotoReviewView: View {
                     .foregroundColor(.white)
                     .frame(maxWidth: .infinity)
                     .padding()
-                    .background(viewModel.selectedImages.isEmpty ? Color.gray : Color("systemPrimaryColor"))
+                    .background(viewModel.selectedImage == nil ? Color.gray : Color("systemPrimaryColor"))
                     .cornerRadius(12)
             }
             .padding(.horizontal, 24)
             .padding(.bottom, 20)
-            .disabled(viewModel.selectedImages.isEmpty)
+            .disabled(viewModel.selectedImage == nil)
         }
         .navigationTitle("Revisar fotos")
         .navigationBarTitleDisplayMode(.inline)

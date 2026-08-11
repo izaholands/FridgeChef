@@ -90,14 +90,38 @@ struct FoodTranslationService {
             "hazelnut spread": "Nutella",
             "chocolate spread": "Nutella",
             "Nutella": "Nutella",
-
+            
+            "nescau": "Nescau",
             "cocoa powder": "Nescau",
             "chocolate powder": "Nescau",
 
             "milk": "Leite",
             "milk carton": "Leite",
+            "powdered milk": "Leite em pó",
             
-            "orange juice": "Suco de laranja"
+            "orange juice": "Suco de laranja",
+            
+            "cookie": "Biscoito",
+            
+            "tangerine": "Tangerina",
+            
+            "snack chips": "Salgadinho",
+            
+            "soft drink": "Refrigerante",
+            
+            "cake": "Bolo",
+            
+            "cheese": "Queijo",
+            
+            "butter": "Manteiga",
+            
+            "yogurt": "Iorgute",
+            
+            "cream cheese": "Requeijao",
+            
+            "coffee": "Café",
+            
+            "water": "Água"
         ]
         
         

@@ -6,7 +6,7 @@ final class MLXRecipeService {
     // IMPORTANTE:
     // Se estiver rodando no Simulador, "http://127.0.0.1:8000/gerar-receita" funciona.
     // Se for testar no iPhone físico, mude para o IP do seu Mac na Wi-Fi (ex: "http://192.168.0.15:8000/gerar-receita")
-    private let urlString = "http://10.49.53.76:8000/gerar-receita"
+    private let urlString = "http://10.49.53.113:8000/gerar-receita"
     
     struct RecipeRequest: Encodable {
         let ingredientes: [String]
@@ -25,7 +25,7 @@ final class MLXRecipeService {
             throw URLError(.badURL)
         }
         
-        var request = URLRequest(url: url)
+        var request = URLRequest(url: url, timeoutInterval: 120.0)
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
