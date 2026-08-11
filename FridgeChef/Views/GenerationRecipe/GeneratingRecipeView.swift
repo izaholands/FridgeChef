@@ -11,6 +11,7 @@ struct GeneratingRecipeView: View {
 
     @State private var currentMessage = 0
     @State private var animate = false
+    @State private var progress: Double = 0.0
 
     private let messages = [
         ("camera.viewfinder", "Analisando seus ingredientes..."),
@@ -57,9 +58,10 @@ struct GeneratingRecipeView: View {
 
             }
 
-            ProgressView()
+            ProgressView(value: progress, total: 100.0)
                 .progressViewStyle(.linear)
                 .padding(.horizontal, 40)
+                .tint(Color("systemPrimaryColor"))
 
             Spacer()
 
@@ -70,14 +72,21 @@ struct GeneratingRecipeView: View {
 
             animate = true
 
+            // Timer para trocar as mensagens
             Timer.scheduledTimer(withTimeInterval: 2.0, repeats: true) { timer in
-
                 if currentMessage < messages.count - 1 {
                     currentMessage += 1
                 } else {
                     timer.invalidate()
                 }
-
+            }
+            
+            // Timer para animar a barra de progresso suavemente
+            Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { timer in
+                if progress < 95.0 {
+                    // Vai enchendo aos poucos
+                    progress += 0.5
+                }
             }
 
         }
