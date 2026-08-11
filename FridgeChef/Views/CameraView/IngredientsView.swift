@@ -48,7 +48,7 @@ struct IngredientsView: View {
                         TextField("Adicionar ingrediente", text: $newIngredient)
                             .padding(.horizontal, 16)
                             .padding(.vertical, 12)
-                            .background(Color.white)
+                            .background(Color("bgColor"))
                             .cornerRadius(12)
                             .overlay(
                                 RoundedRectangle(cornerRadius: 12)

@@ -24,7 +24,7 @@ struct YourReveneu: View {
                             )
                         }
                     }
-                    .background(Color.white)
+                    .background(Color("bgColor"))
                     .cornerRadius(16)
                 }
                 
