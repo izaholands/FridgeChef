@@ -1,48 +1,4 @@
-////
-////  FoodTranslationService.swift
-////  FridgeChef
-////
-////  Created by Maria Izabelle Holanda de Andrade on 05/08/26.
-////
-//
-//import Foundation
-//
-//struct FoodTranslationService {
-//    
-//    static func translate(_ ingredient: String) -> String{
-//        
-//        let cleanedFood = ingredient
-//            .lowercased()
-//            .replacingOccurrences(of: "_", with: " ")
-//            //.filter{ !$0.isWhitespace || $0 == " "}
-//            .components(separatedBy: .whitespacesAndNewlines)
-//            .joined(separator: " ")
-//            .trimmingCharacters(in: .whitespacesAndNewlines)
-//        
-//        let translations: [String: String] = [
-//           "Bread": "Pão",
-//           "Lemon": "Limão",
-//           "Nestle_Nescau": "Nescau",
-//           "Onion": "Cebola",
-//           "Nutella": "Nutella",
-//           "Orange_Juice": "Suco de Laranja",
-//           "Cola_Cola": "Coca Cola",
-//           "Milk_Carton": "Caixa de Leite",
-//           "Sliced_Bread": "Pão de Forma",
-//           "Mayonnaise": "Maionese",
-//           "Ketchup": "Ketchup"
-//       ]
-//       
-////       func translate(_ food: String) -> String {
-////           let normalized = food.lowercased()
-////           
-////           return translations[normalized] ?? food.capitalized
-////       }
-//        return translations[cleanedFood] ?? ingredient.capitalized
-//        
-//    }
-//     
-//}
+import Foundation
 
 import Foundation
 
