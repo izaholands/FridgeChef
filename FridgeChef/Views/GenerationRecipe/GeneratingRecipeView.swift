@@ -84,6 +84,7 @@ struct GeneratingRecipeView: View {
             // Timer para animar a barra de progresso suavemente
             Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { timer in
                 if progress < 95.0 {
+                    // Vai enchendo aos poucos
                     progress += 0.5
                 }
             }
