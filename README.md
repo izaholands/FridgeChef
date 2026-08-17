@@ -1,3 +1,5 @@
-👩🏽‍🍳 O FridgeChef é um aplicativo iOS que ajuda a descobrir o que cozinhar usando os alimentos que você já tem em casa.
+# 👩🏽‍🍳 FridgeChef
+
+### Aplicativo iOS que ajuda a descobrir o que cozinhar usando os alimentos que você já tem em casa.
 
 A ideia é simples: você tira uma foto dos alimentos disponíveis e o aplicativo identifica os ingredientes. A partir deles, uma receita é sugerida para você. aplicativo capaz de transformar os ingredientes disponíveis em uma sugestão de receita. O usuário pode tirar uma foto dos alimentos ou selecionar imagens da galeria e, a partir disso, o aplicativo identifica os ingredientes, processa as informações e gera uma sugestão de receita, com medidas exatas e um passo a passo completo.
